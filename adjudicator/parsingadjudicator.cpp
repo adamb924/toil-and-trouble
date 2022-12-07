@@ -13,6 +13,11 @@
 
 #include <QXmlStreamReader>
 
+QString ParsingAdjudicator::XML_PARSING_ADJUDICATOR = "parsing-adjudicator";
+QString ParsingAdjudicator::XML_STEM_PREFERENCE = "stem-preference";
+QString ParsingAdjudicator::XML_STEM_ID_PREFERENCE = "stem-id-preference";
+QString ParsingAdjudicator::XML_MORPHEME_PREFERENCE = "morpheme-preference";
+
 ParsingAdjudicator::ParsingAdjudicator(const Morphology *morphology) : mMorphology(morphology)
 {
 
@@ -62,18 +67,18 @@ QList<Parsing> ParsingAdjudicator::adjudicate(const QList<Parsing> &parsings) co
 
 void ParsingAdjudicator::readCriteria(QXmlStreamReader &in)
 {
-    Q_ASSERT( in.isStartElement() && in.name() == "parsing-adjudicator" );
+    Q_ASSERT( in.isStartElement() && in.name() == XML_PARSING_ADJUDICATOR );
 
     bool isOk = true;
 
     while(!in.atEnd()
-          && !( in.isEndElement() && in.name() == "parsing-adjudicator" ))
+          && !( in.isEndElement() && in.name() == XML_PARSING_ADJUDICATOR ))
     {
         in.readNext();
 
         if( in.tokenType() == QXmlStreamReader::StartElement )
         {
-            if( in.name() == "stem-preference" )
+            if( in.name() == XML_STEM_PREFERENCE )
             {
                 WritingSystem ws = mMorphology->writingSystem( in.attributes().value("lang").toString() );
                 QString preferred = in.attributes().value("prefer").toString();
@@ -92,13 +97,13 @@ void ParsingAdjudicator::readCriteria(QXmlStreamReader &in)
                     qCritical() << e.what() << "(Line " << in.lineNumber() << ")";
                 }
             }
-            if( in.name() == "stem-id-preference" )
+            if( in.name() == XML_STEM_ID_PREFERENCE )
             {
                 const qlonglong preferred = in.attributes().value("prefer").toLongLong();
                 const qlonglong dispreferred = in.attributes().value("over").toLongLong();
                 mCriteria << new PreferredStemIdCriterion( preferred, dispreferred );
             }
-            else if( in.name() == "morpheme-preference" )
+            else if( in.name() == XML_MORPHEME_PREFERENCE )
             {
                 QString preferred = in.attributes().value("prefer").toString();
                 QString dispreferred = in.attributes().value("over").toString();
@@ -112,5 +117,5 @@ void ParsingAdjudicator::readCriteria(QXmlStreamReader &in)
         throw std::runtime_error( "Sound and Fury had read errors (described above)." );
     }
 
-    Q_ASSERT( in.isEndElement() && in.name() == "parsing-adjudicator" );
+    Q_ASSERT( in.isEndElement() && in.name() == XML_PARSING_ADJUDICATOR );
 }

@@ -23,6 +23,11 @@ public:
 
     void readCriteria(QXmlStreamReader &in);
 
+    static QString XML_PARSING_ADJUDICATOR;
+    static QString XML_STEM_PREFERENCE;
+    static QString XML_STEM_ID_PREFERENCE;
+    static QString XML_MORPHEME_PREFERENCE;
+
 private:
     const Morphology *mMorphology;
     QList<AbstractAdjudicationCriterion*> mCriteria;
