@@ -40,15 +40,20 @@ unix {
 }
 !isEmpty(target.path): INSTALLS += target
 
-
-CONFIG(release, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/mortalengine
-CONFIG(debug, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/mortalengined
+win32 {
+    CONFIG(release, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/mortalengine
+    CONFIG(debug, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/mortalengined
+}
 
 INCLUDEPATH += $$PWD/../mortal-engine/mortal-engine
 DEPENDPATH += $$PWD/../mortal-engine/mortal-engine
 
-CONFIG(release, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/knotty-entrails
-CONFIG(debug, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/knotty-entrailsd
+win32 {
+    CONFIG(release, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/knotty-entrails
+    CONFIG(debug, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/knotty-entrailsd
+}
+
+unix: LIBS += -L/opt/ -lmortalengine
 
 INCLUDEPATH += $$PWD/../knotty-entrails
 DEPENDPATH += $$PWD/../knotty-entrails
