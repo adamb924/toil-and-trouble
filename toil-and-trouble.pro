@@ -5,6 +5,8 @@ DEFINES += TOILANDTROUBLE_LIBRARY
 
 CONFIG += c++17
 
+TARGET = toil-and-trouble
+
 CONFIG(debug, debug|release) {
     mac: TARGET = $$join(TARGET,,,_debug)
     win32: TARGET = $$join(TARGET,,,d)
@@ -41,16 +43,18 @@ unix {
 !isEmpty(target.path): INSTALLS += target
 
 win32 {
-    CONFIG(release, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/mortalengine
-    CONFIG(debug, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/mortalengined
+    LIBS += -L$$[QT_INSTALL_LIBS]
+    CONFIG(release, debug|release): LIBS += -lmortalengine
+    CONFIG(debug, debug|release): LIBS += -lmortalengined
 }
 
 INCLUDEPATH += $$PWD/../mortal-engine/mortal-engine
 DEPENDPATH += $$PWD/../mortal-engine/mortal-engine
 
 win32 {
-    CONFIG(release, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/knotty-entrails
-    CONFIG(debug, debug|release): LIBS += -l$$[QT_INSTALL_LIBS]/knotty-entrailsd
+    LIBS += -L$$[QT_INSTALL_LIBS]
+    CONFIG(release, debug|release): LIBS += -lknotty-entrails
+    CONFIG(debug, debug|release): LIBS += -lknotty-entrailsd
 }
 
 unix: LIBS += -L/opt/ -lmortalengine
