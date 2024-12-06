@@ -13,29 +13,31 @@
 
 #include <QXmlStreamReader>
 
+using namespace TT;
+
 QString ParsingAdjudicator::XML_PARSING_ADJUDICATOR = "parsing-adjudicator";
 QString ParsingAdjudicator::XML_STEM_PREFERENCE = "stem-preference";
 QString ParsingAdjudicator::XML_STEM_ID_PREFERENCE = "stem-id-preference";
 QString ParsingAdjudicator::XML_MORPHEME_PREFERENCE = "morpheme-preference";
 
-ParsingAdjudicator::ParsingAdjudicator(const Morphology *morphology) : mMorphology(morphology)
+ParsingAdjudicator::ParsingAdjudicator(const ME::Morphology *morphology) : mMorphology(morphology)
 {
 
 }
 
-QList<Parsing> ParsingAdjudicator::adjudicate(const QList<Parsing> &parsings) const
+QList<ME::Parsing> ParsingAdjudicator::adjudicate(const QList<ME::Parsing> &parsings) const
 {
     if( parsings.count() < 2 )
     {
         return parsings;
     }
 
-    QList<Parsing> adjudicatedParsings = parsings;
+    QList<ME::Parsing> adjudicatedParsings = parsings;
     int currentCount = adjudicatedParsings.count();
 
     if( ToilAndTrouble::DebugOutput )
     {
-        qInfo() << "Starting with" << adjudicatedParsings.count() << ": " << Parsing::parsingListSummary( adjudicatedParsings );
+        qInfo() << "Starting with" << adjudicatedParsings.count() << ": " << ME::Parsing::parsingListSummary( adjudicatedParsings );
     }
 
     QListIterator<AbstractAdjudicationCriterion*> i(mCriteria);
@@ -48,7 +50,7 @@ QList<Parsing> ParsingAdjudicator::adjudicate(const QList<Parsing> &parsings) co
         {
             if( adjudicatedParsings.count() < currentCount )
             {
-                qInfo() << "Reduced to" << adjudicatedParsings.count() << ": " << Parsing::parsingListSummary( adjudicatedParsings ) << "by" << criterion->summary();
+                qInfo() << "Reduced to" << adjudicatedParsings.count() << ": " << ME::Parsing::parsingListSummary( adjudicatedParsings ) << "by" << criterion->summary();
                 currentCount = adjudicatedParsings.count();
             }
             else
@@ -80,13 +82,13 @@ void ParsingAdjudicator::readCriteria(QXmlStreamReader &in)
         {
             if( in.name() == XML_STEM_PREFERENCE )
             {
-                WritingSystem ws = mMorphology->writingSystem( in.attributes().value("lang").toString() );
+                ME::WritingSystem ws = mMorphology->writingSystem( in.attributes().value("lang").toString() );
                 QString preferred = in.attributes().value("prefer").toString();
                 QString dispreferred = in.attributes().value("over").toString();
 
                 try {
-                    LexicalStem * preferredStem = mMorphology->uniqueLexicalStem( Form( ws, preferred ) );
-                    LexicalStem * dispreferredStem = mMorphology->uniqueLexicalStem( Form( ws, dispreferred ) );
+                    ME::LexicalStem * preferredStem = mMorphology->uniqueLexicalStem( ME::Form( ws, preferred ) );
+                    ME::LexicalStem * dispreferredStem = mMorphology->uniqueLexicalStem( ME::Form( ws, dispreferred ) );
 
                     if( preferredStem != nullptr && dispreferredStem != nullptr )
                     {

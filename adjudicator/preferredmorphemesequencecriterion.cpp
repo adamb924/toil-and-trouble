@@ -2,15 +2,17 @@
 
 #include "datatypes/parsing.h"
 
+using namespace TT;
+
 PreferredMorphemeSequenceCriterion::PreferredMorphemeSequenceCriterion(const QString & preferred, const QString & dispreferred)
 {
     mPreferred = QRegularExpression( escapeBrackets(preferred) );
     mDispreferred = QRegularExpression( escapeBrackets(dispreferred) );
 }
 
-QList<Parsing> PreferredMorphemeSequenceCriterion::evaluate(const QList<Parsing> &parsings, bool *decided)
+QList<ME::Parsing> PreferredMorphemeSequenceCriterion::evaluate(const QList<ME::Parsing> &parsings, bool *decided)
 {
-    QList<Parsing> stemsWithPreferred = parsingsWithSequence(parsings, mPreferred );
+    QList<ME::Parsing> stemsWithPreferred = parsingsWithSequence(parsings, mPreferred );
 
     /// optimization
     if( stemsWithPreferred.isEmpty() )
@@ -19,7 +21,7 @@ QList<Parsing> PreferredMorphemeSequenceCriterion::evaluate(const QList<Parsing>
         return parsings;
     }
 
-    QList<Parsing> stemsWithDispreferred = parsingsWithSequence(parsings, mDispreferred );
+    QList<ME::Parsing> stemsWithDispreferred = parsingsWithSequence(parsings, mDispreferred );
     /// optimization
     if( stemsWithDispreferred.isEmpty() )
     {
@@ -31,8 +33,8 @@ QList<Parsing> PreferredMorphemeSequenceCriterion::evaluate(const QList<Parsing>
 
     /// this handles situations where the preferred sequence is a subsequence of the dispreferred sequence
     /// e.g., [a] is preferred to [a][b]
-    QList<Parsing> putativelyPreferred = stemsWithPreferred;
-    foreach( Parsing p, stemsWithDispreferred )
+    QList<ME::Parsing> putativelyPreferred = stemsWithPreferred;
+    foreach( ME::Parsing p, stemsWithDispreferred )
     {
         putativelyPreferred.removeOne( p );
     }
@@ -54,13 +56,13 @@ QString PreferredMorphemeSequenceCriterion::summary() const
     return QObject::tr("PreferredMorphemeSequenceCriterion( Preferred: %1; Dispreferred: %2 )").arg( mPreferred.pattern() ).arg( mDispreferred.pattern() );
 }
 
-QList<Parsing> PreferredMorphemeSequenceCriterion::parsingsWithSequence(const QList<Parsing> &parsings, const QRegularExpression &sequence)
+QList<ME::Parsing> PreferredMorphemeSequenceCriterion::parsingsWithSequence(const QList<ME::Parsing> &parsings, const QRegularExpression &sequence)
 {
-    QList<Parsing> result;
-    QListIterator<Parsing> i(parsings);
+    QList<ME::Parsing> result;
+    QListIterator<ME::Parsing> i(parsings);
     while(i.hasNext())
     {
-        Parsing p = i.next();
+        ME::Parsing p = i.next();
         if( p.labelSummary().contains( sequence ) )
         {
             result << p;

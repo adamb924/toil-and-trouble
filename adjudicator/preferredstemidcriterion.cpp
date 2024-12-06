@@ -1,5 +1,7 @@
 #include "preferredstemidcriterion.h"
 
+using namespace TT;
+
 PreferredStemIdCriterion::PreferredStemIdCriterion(qlonglong preferred, qlonglong dispreferred)
     : mPreferred(preferred),
       mDispreferred(dispreferred)
@@ -13,7 +15,7 @@ QString PreferredStemIdCriterion::summary() const
 
 }
 
-QList<Parsing> PreferredStemIdCriterion::evaluate(const QList<Parsing> &parsings, bool *decided)
+QList<ME::Parsing> PreferredStemIdCriterion::evaluate(const QList<ME::Parsing> &parsings, bool *decided)
 {
     const int preferredFloor = minimumStemOccurences(parsings, mPreferred);
     const int dispreferredFloor = minimumStemOccurences(parsings, mDispreferred);
@@ -40,13 +42,13 @@ QList<Parsing> PreferredStemIdCriterion::evaluate(const QList<Parsing> &parsings
     return parsingsWithStem(parsings, mPreferred, preferredFloor);
 }
 
-QList<Parsing> PreferredStemIdCriterion::parsingsWithStem(const QList<Parsing> &parsings, qlonglong stemId, int floor)
+QList<ME::Parsing> PreferredStemIdCriterion::parsingsWithStem(const QList<ME::Parsing> &parsings, qlonglong stemId, int floor)
 {
-    QList<Parsing> result;
-    QListIterator<Parsing> i(parsings);
+    QList<ME::Parsing> result;
+    QListIterator<ME::Parsing> i(parsings);
     while(i.hasNext())
     {
-        const Parsing p = i.next();
+        const ME::Parsing p = i.next();
         if( p.numberOfInstancesOfStem(stemId) > floor )
         {
             result << p;
@@ -55,9 +57,9 @@ QList<Parsing> PreferredStemIdCriterion::parsingsWithStem(const QList<Parsing> &
     return result;
 }
 
-bool PreferredStemIdCriterion::parsingsContainStem(const QList<Parsing> &parsings, qlonglong stemId, int floor)
+bool PreferredStemIdCriterion::parsingsContainStem(const QList<ME::Parsing> &parsings, qlonglong stemId, int floor)
 {
-    QListIterator<Parsing> i(parsings);
+    QListIterator<ME::Parsing> i(parsings);
     while(i.hasNext())
     {
         if( i.next().numberOfInstancesOfStem(stemId) > floor )
@@ -68,9 +70,9 @@ bool PreferredStemIdCriterion::parsingsContainStem(const QList<Parsing> &parsing
     return false;
 }
 
-int PreferredStemIdCriterion::minimumStemOccurences(const QList<Parsing> &parsings, qlonglong stemId)
+int PreferredStemIdCriterion::minimumStemOccurences(const QList<ME::Parsing> &parsings, qlonglong stemId)
 {
-    QListIterator<Parsing> i(parsings);
+    QListIterator<ME::Parsing> i(parsings);
     int fewestOccurences = INT_MAX;
     while(i.hasNext())
     {

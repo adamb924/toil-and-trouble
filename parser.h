@@ -5,28 +5,35 @@
 
 #include "toil-and-trouble_global.h"
 
-class ParsingAdjudicator;
+namespace KE {
 class AbstractTextSegment;
+}
 
-class TOILANDTROUBLE_EXPORT Parser : public AbstractTextParser
+namespace TT {
+
+class ParsingAdjudicator;
+
+class TOILANDTROUBLE_EXPORT Parser : public KE::AbstractTextParser
 {
 public:
-    Parser(const Morphology *morphology, std::function<Form(Form)> normalizationFunction);
+    Parser(const ME::Morphology *morphology, std::function<ME::Form(ME::Form)> normalizationFunction);
     Parser(const Parser & other) = delete;
     Parser operator=(const Parser & other) = delete;
     ~Parser() override;
 
-    void parseText( AbstractTextAdapter * text, WhichForm which, AbstractParserLog * log = nullptr) const override;
-    void parseTextSegment( AbstractTextSegment * segment, WhichForm which, AbstractParserLog * log = nullptr) const;
+    void parseText( KE::AbstractTextAdapter * text, KE::WhichForm which, KE::AbstractParserLog * log = nullptr) const override;
+    void parseTextSegment( KE::AbstractTextSegment * segment, KE::WhichForm which, KE::AbstractParserLog * log = nullptr) const;
 
     /// pass-through to mAdjudicator
     void readCriteria(QXmlStreamReader &in);
 
 private:
-    void parseTextItem(AbstractTextItem * item, WhichForm which, AbstractParserLog * log ) const;
+    void parseTextItem(KE::AbstractTextItem * item, KE::WhichForm which, KE::AbstractParserLog * log ) const;
 
-    const Morphology * mMorphology;
+    const ME::Morphology * mMorphology;
     ParsingAdjudicator * mAdjudicator;
 };
+
+} // namespace TT
 
 #endif // PARSER_H

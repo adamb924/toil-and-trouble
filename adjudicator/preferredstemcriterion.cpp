@@ -1,6 +1,8 @@
 #include "preferredstemcriterion.h"
 
-PreferredStemCriterion::PreferredStemCriterion(const LexicalStem &preferred, const LexicalStem &dispreferred) : mPreferred(preferred), mDispreferred(dispreferred)
+using namespace TT;
+
+PreferredStemCriterion::PreferredStemCriterion(const ME::LexicalStem &preferred, const ME::LexicalStem &dispreferred) : mPreferred(preferred), mDispreferred(dispreferred)
 {
 
 }
@@ -10,7 +12,7 @@ QString PreferredStemCriterion::summary() const
     return QObject::tr("PreferredStemCriterion( Preferred: %1; Dispreferred: %2 )").arg( mPreferred.oneLineSummary() ).arg( mDispreferred.oneLineSummary() );
 }
 
-QList<Parsing> PreferredStemCriterion::evaluate(const QList<Parsing> &parsings, bool *decided)
+QList<ME::Parsing> PreferredStemCriterion::evaluate(const QList<ME::Parsing> &parsings, bool *decided)
 {
     /// if the only stems in the list have the preferred stem,
     /// then return immediately: there's no decision to be made
@@ -34,13 +36,13 @@ QList<Parsing> PreferredStemCriterion::evaluate(const QList<Parsing> &parsings, 
     return parsingsWithStem(parsings, mPreferred);
 }
 
-QList<Parsing> PreferredStemCriterion::parsingsWithStem(const QList<Parsing> &parsings, const LexicalStem &stem)
+QList<ME::Parsing> PreferredStemCriterion::parsingsWithStem(const QList<ME::Parsing> &parsings, const ME::LexicalStem &stem)
 {
-    QList<Parsing> result;
-    QListIterator<Parsing> i(parsings);
+    QList<ME::Parsing> result;
+    QListIterator<ME::Parsing> i(parsings);
     while(i.hasNext())
     {
-        Parsing p = i.next();
+        ME::Parsing p = i.next();
         if( p.containsStem( stem ) )
         {
             result << p;
@@ -49,9 +51,9 @@ QList<Parsing> PreferredStemCriterion::parsingsWithStem(const QList<Parsing> &pa
     return result;
 }
 
-bool PreferredStemCriterion::parsingsContainStem(const QList<Parsing> &parsings, const LexicalStem &stem)
+bool PreferredStemCriterion::parsingsContainStem(const QList<ME::Parsing> &parsings, const ME::LexicalStem &stem)
 {
-    QListIterator<Parsing> i(parsings);
+    QListIterator<ME::Parsing> i(parsings);
     while(i.hasNext())
     {
         if( i.next().containsStem( stem ) )

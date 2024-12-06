@@ -3,6 +3,8 @@
 
 #include "abstractadjudicationcriterion.h"
 
+namespace TT {
+
 class PreferredStemIdCriterion : public AbstractAdjudicationCriterion
 {
 public:
@@ -10,14 +12,16 @@ public:
 
     QString summary() const override;
 
-    QList<Parsing> evaluate(const QList<Parsing> &parsings, bool * decided) override;
+    QList<ME::Parsing> evaluate(const QList<ME::Parsing> &parsings, bool * decided) override;
 
 private:
-    static QList<Parsing> parsingsWithStem(const QList<Parsing> &parsings, qlonglong stemId, int floor);
-    static bool parsingsContainStem(const QList<Parsing> &parsings, qlonglong stemId, int floor);
-    static int minimumStemOccurences(const QList<Parsing> &parsings, qlonglong stemId);
+    static QList<ME::Parsing> parsingsWithStem(const QList<ME::Parsing> &parsings, qlonglong stemId, int floor);
+    static bool parsingsContainStem(const QList<ME::Parsing> &parsings, qlonglong stemId, int floor);
+    static int minimumStemOccurences(const QList<ME::Parsing> &parsings, qlonglong stemId);
 
     qlonglong mPreferred, mDispreferred;
 };
+
+} // namespace TT
 
 #endif // PREFERREDSTEMIDCRITERION_H

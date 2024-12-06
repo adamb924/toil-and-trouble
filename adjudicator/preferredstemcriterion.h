@@ -3,20 +3,24 @@
 
 #include "abstractadjudicationcriterion.h"
 
+namespace TT {
+
 class PreferredStemCriterion : public AbstractAdjudicationCriterion
 {
 public:
-    PreferredStemCriterion(const LexicalStem & preferred, const LexicalStem & dispreferred);
+    PreferredStemCriterion(const ME::LexicalStem & preferred, const ME::LexicalStem & dispreferred);
 
     QString summary() const override;
 
-    QList<Parsing> evaluate(const QList<Parsing> &parsings, bool * decided) override;
+    QList<ME::Parsing> evaluate(const QList<ME::Parsing> &parsings, bool * decided) override;
 
 private:
-    static QList<Parsing> parsingsWithStem(const QList<Parsing> &parsings, const LexicalStem & stem);
-    static bool parsingsContainStem(const QList<Parsing> &parsings, const LexicalStem & stem);
+    static QList<ME::Parsing> parsingsWithStem(const QList<ME::Parsing> &parsings, const ME::LexicalStem & stem);
+    static bool parsingsContainStem(const QList<ME::Parsing> &parsings, const ME::LexicalStem & stem);
 
-    LexicalStem mPreferred, mDispreferred;
+    ME::LexicalStem mPreferred, mDispreferred;
 };
+
+} // namespace TT
 
 #endif // PREFERREDSTEMCRITERION_H

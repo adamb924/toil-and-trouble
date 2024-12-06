@@ -4,6 +4,8 @@
 #include <QList>
 #include "datatypes/parsing.h"
 
+namespace TT {
+
 class AbstractAdjudicationCriterion
 {
 public:
@@ -12,7 +14,9 @@ public:
 
     virtual QString summary() const = 0;
 
-    virtual QList<Parsing> evaluate(const QList<Parsing> &parsings, bool * decided) = 0;
+    virtual QList<ME::Parsing> evaluate(const QList<ME::Parsing> &parsings, bool * decided) = 0;
 };
+
+} // namespace TT
 
 #endif // ABSTRACTADJUDICATIONCRITERION_H

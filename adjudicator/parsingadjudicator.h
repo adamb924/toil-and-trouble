@@ -6,20 +6,25 @@
 
 #include "toil-and-trouble_global.h"
 
-class AbstractAdjudicationCriterion;
-class MortalEngineTranslationSource;
+
+namespace ME {
 class Morphology;
+}
+
+namespace TT {
+
+class AbstractAdjudicationCriterion;
 
 class TOILANDTROUBLE_EXPORT ParsingAdjudicator
 {
 public:
-    explicit ParsingAdjudicator(const Morphology *morphology);
+    explicit ParsingAdjudicator(const ME::Morphology *morphology);
 
     /// Go through the adjudication critiera in order. If a criterion
     /// adjudicates between the parsings, that parsings is returned
     /// immediately. If none of the criteria adjudicate, the first
     /// parsing is returned.
-    QList<Parsing> adjudicate(const QList<Parsing> & parsings) const;
+    QList<ME::Parsing> adjudicate(const QList<ME::Parsing> & parsings) const;
 
     void readCriteria(QXmlStreamReader &in);
 
@@ -29,8 +34,10 @@ public:
     static QString XML_MORPHEME_PREFERENCE;
 
 private:
-    const Morphology *mMorphology;
+    const ME::Morphology *mMorphology;
     QList<AbstractAdjudicationCriterion*> mCriteria;
 };
+
+} // namespace TT
 
 #endif // PARSINGADJUDICATOR_H
