@@ -36,12 +36,14 @@ find_library(KNOTTYENTRAILS_LIB_DEBUG NAMES knotty-entrailsd)
 
 message(STATUS "KNOTTYENTRAILS_LIB_RELEASE = ${KNOTTYENTRAILS_LIB_RELEASE}")
 message(STATUS "KNOTTYENTRAILS_LIB_DEBUG = ${KNOTTYENTRAILS_LIB_DEBUG}")
+set( KNOTTYENTRAILS_LIB_INCLUDE ${CMAKE_INSTALL_PREFIX}/include/knotty-entrails )
+message(STATUS "KNOTTYENTRAILS_LIB_INCLUDE = ${KNOTTYENTRAILS_LIB_INCLUDE}")
 
 target_include_directories(toil-and-trouble
     PUBLIC
     "."
-    ${CMAKE_PREFIX_PATH}/include/mortal-engine
-    ${CMAKE_PREFIX_PATH}/include/knotty-entrails
+    ${CMAKE_INSTALL_PREFIX}/include/mortal-engine
+    ${CMAKE_INSTALL_PREFIX}/include/knotty-entrails
 )
 
 target_link_libraries(toil-and-trouble PRIVATE
