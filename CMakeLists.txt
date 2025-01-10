@@ -44,7 +44,11 @@ target_include_directories(toil-and-trouble
     "."
     ${CMAKE_INSTALL_PREFIX}/include/mortal-engine
     ${CMAKE_INSTALL_PREFIX}/include/knotty-entrails
+    ${EXTRA_INCLUDE_DIR}
 )
+
+get_target_property(INCLUDE_DIRS toil-and-trouble INCLUDE_DIRECTORIES)
+message(STATUS "Include directories for toil-and-trouble: ${INCLUDE_DIRS}")
 
 target_link_libraries(toil-and-trouble PRIVATE
     Qt${QT_VERSION_MAJOR}::Core
