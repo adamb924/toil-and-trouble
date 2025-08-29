@@ -21,7 +21,7 @@ public:
     Parser operator=(const Parser & other) = delete;
     ~Parser() override;
 
-    void parseText( KE::AbstractTextAdapter * text, KE::WhichForm which, KE::AbstractParserLog * log = nullptr) const override;
+    void parseText( const ME::Morphology *morphology, KE::AbstractTextAdapter * text, KE::WhichForm which, KE::AbstractParserLog * log = nullptr) const override;
     void parseTextSegment( KE::AbstractTextSegment * segment, KE::WhichForm which, KE::AbstractParserLog * log = nullptr) const;
 
     /// pass-through to mAdjudicator

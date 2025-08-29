@@ -20,8 +20,9 @@ Parser::~Parser()
     delete mAdjudicator;
 }
 
-void Parser::parseText(KE::AbstractTextAdapter *text, KE::WhichForm which, KE::AbstractParserLog *log) const
+void Parser::parseText(const ME::Morphology *morphology, KE::AbstractTextAdapter *text, KE::WhichForm which, KE::AbstractParserLog *log) const
 {
+    Q_UNUSED(morphology)
     text->foreachTextItem( [this,which,log](KE::AbstractTextItem * item) {
         parseTextItem(item, which, log);
     } );
