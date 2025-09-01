@@ -14,6 +14,13 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Sql Xml)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Sql Xml)
 
 add_library(toil-and-trouble SHARED
+    toilandtrouble.h
+    adjudicator/preferredstemidcriterion.h
+    parser.h
+    adjudicator/abstractadjudicationcriterion.h
+    adjudicator/parsingadjudicator.h
+    adjudicator/preferredmorphemesequencecriterion.h
+    adjudicator/preferredstemcriterion.h
     toilandtrouble.cpp 
     adjudicator/preferredstemidcriterion.cpp 
     parser.cpp 
