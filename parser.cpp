@@ -44,12 +44,13 @@ void Parser::parseTextItem(KE::AbstractTextItem *item, KE::WhichForm which, KE::
 {
     /// 1. Get a list of parsings for the input
     QSet<ME::Parsing> parsings;
-    ME::Form formToParse = (*(item).*which)().form();
+    KE::AbstractParsedForm * parsedForm = &(*(item).*which)();
+    ME::Form formToParse = parsedForm->form();
 
     /// TODO perhaps this should be customizeable
     if( formToParse.isWhitespaceAndNonWordCharacters() )
     {
-        (*(item).*which)().setWellformedness( KE::AbstractTextItem::Ignored );
+        parsedForm->setWellformedness( KE::AbstractTextItem::Ignored );
         return;
     }
     parsings = mMorphology->uniqueParsings( mNormalizationFunction( formToParse ) );
@@ -60,16 +61,17 @@ void Parser::parseTextItem(KE::AbstractTextItem *item, KE::WhichForm which, KE::
     /// 3. (Maybe) Warn if there are no available parsings; though this could be irritating
     if( parsingList.count() == 0 )
     {
-        (*(item).*which)().setWellformedness( KE::AbstractTextItem::NotWellformed );
+        parsedForm->setWellformedness( KE::AbstractTextItem::NotWellformed );
 //        qWarning() << "Unable to parse:" << item->input().summary();
+        log->addFailedParsing(formToParse);
     }
     /// 4. If there are multiple parsings available, we try to choose which one is the best
     else if( parsingList.count() > 1 )
     {
         /// 4b. Get the best parsings from the Adjudicator
         QList<ME::Parsing> adjudicated = mAdjudicator->adjudicate( parsingList );
-        (*(item).*which)().setParsing( adjudicated.first() );
-        (*(item).*which)().setWellformedness( KE::AbstractTextItem::WellformedMultiple );
+        parsedForm->setParsing( adjudicated.first() );
+        parsedForm->setWellformedness( KE::AbstractTextItem::WellformedMultiple );
 
         /// 4c. If adjudication didn't produce a result, warn the user
         if( log != nullptr && adjudicated.count() > 1 )
@@ -81,7 +83,7 @@ void Parser::parseTextItem(KE::AbstractTextItem *item, KE::WhichForm which, KE::
     /// 5. Otherwise there is only one parsing; that's the easy case
     else
     {
-        (*(item).*which)().setParsing( parsingList.first() ); /// this will set well-formedness as well
-        (*(item).*which)().setWellformedness( KE::AbstractTextItem::WellformedSingle );
+        parsedForm->setParsing( parsingList.first() ); /// this will set well-formedness as well
+        parsedForm->setWellformedness( KE::AbstractTextItem::WellformedSingle );
     }
 }
