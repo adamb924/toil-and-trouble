@@ -59,11 +59,12 @@ void Parser::parseTextItem(KE::AbstractTextItem *item, KE::WhichForm which, KE::
     QList<ME::Parsing> parsingList(parsings.begin(),parsings.end());
 
     /// 3. (Maybe) Warn if there are no available parsings; though this could be irritating
-    if( parsingList.count() == 0 && log != nullptr )
+    if( parsingList.count() == 0 )
     {
         parsedForm->setWellformedness( KE::AbstractTextItem::NotWellformed );
 //        qWarning() << "Unable to parse:" << item->input().summary();
-        log->addFailedParsing(formToParse);
+        if( log != nullptr )
+            log->addFailedParsing(formToParse);
     }
     /// 4. If there are multiple parsings available, we try to choose which one is the best
     else if( parsingList.count() > 1 )
