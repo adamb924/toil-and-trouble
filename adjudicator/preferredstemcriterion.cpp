@@ -1,5 +1,7 @@
 #include "preferredstemcriterion.h"
 
+#include <QObject>
+
 using namespace TT;
 
 PreferredStemCriterion::PreferredStemCriterion(const ME::LexicalStem &preferred, const ME::LexicalStem &dispreferred) : mPreferred(preferred), mDispreferred(dispreferred)

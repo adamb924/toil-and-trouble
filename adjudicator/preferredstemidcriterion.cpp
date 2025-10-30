@@ -1,5 +1,7 @@
 #include "preferredstemidcriterion.h"
 
+#include <QObject>
+
 using namespace TT;
 
 PreferredStemIdCriterion::PreferredStemIdCriterion(qlonglong preferred, qlonglong dispreferred)
