@@ -6,8 +6,8 @@ using namespace TT;
 
 PreferredMorphemeSequenceCriterion::PreferredMorphemeSequenceCriterion(const QString & preferred, const QString & dispreferred)
 {
-    mPreferred = QRegularExpression( escapeBrackets(preferred) );
-    mDispreferred = QRegularExpression( escapeBrackets(dispreferred) );
+    mPreferred = QRegularExpression( escapeBrackets(preferred), QRegularExpression::UseUnicodePropertiesOption );
+    mDispreferred = QRegularExpression( escapeBrackets(dispreferred), QRegularExpression::UseUnicodePropertiesOption );
 }
 
 QList<ME::Parsing> PreferredMorphemeSequenceCriterion::evaluate(const QList<ME::Parsing> &parsings, bool *decided)
