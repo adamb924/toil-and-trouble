@@ -11,7 +11,8 @@ PreferredStemCriterion::PreferredStemCriterion(const ME::LexicalStem &preferred,
 
 QString PreferredStemCriterion::summary() const
 {
-    return QObject::tr("PreferredStemCriterion( Preferred: %1; Dispreferred: %2 )").arg( mPreferred.oneLineSummary() ).arg( mDispreferred.oneLineSummary() );
+    return QObject::tr("PreferredStemCriterion( Preferred: %1; Dispreferred: %2 )")
+        .arg(mPreferred.oneLineSummary(), mDispreferred.oneLineSummary());
 }
 
 QList<ME::Parsing> PreferredStemCriterion::evaluate(const QList<ME::Parsing> &parsings, bool *decided)

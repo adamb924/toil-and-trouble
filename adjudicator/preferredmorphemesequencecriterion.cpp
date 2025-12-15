@@ -53,7 +53,8 @@ QList<ME::Parsing> PreferredMorphemeSequenceCriterion::evaluate(const QList<ME::
 
 QString PreferredMorphemeSequenceCriterion::summary() const
 {
-    return QObject::tr("PreferredMorphemeSequenceCriterion( Preferred: %1; Dispreferred: %2 )").arg( mPreferred.pattern() ).arg( mDispreferred.pattern() );
+    return QObject::tr("PreferredMorphemeSequenceCriterion( Preferred: %1; Dispreferred: %2 )")
+        .arg(mPreferred.pattern(), mDispreferred.pattern());
 }
 
 QList<ME::Parsing> PreferredMorphemeSequenceCriterion::parsingsWithSequence(const QList<ME::Parsing> &parsings, const QRegularExpression &sequence)
