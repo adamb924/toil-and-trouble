@@ -10,7 +10,9 @@
 
 using namespace TT;
 
-Parser::Parser(const ME::Morphology * morphology, std::function<ME::Form (ME::Form)> normalizationFunction) : KE::AbstractTextParser(normalizationFunction), mMorphology(morphology), mAdjudicator( new ParsingAdjudicator(mMorphology) )
+Parser::Parser(const ME::Morphology *morphology)
+    : mMorphology(morphology)
+    , mAdjudicator(new ParsingAdjudicator(mMorphology))
 {
 
 }
@@ -53,7 +55,7 @@ void Parser::parseTextItem(KE::AbstractTextItem *item, KE::WhichForm which, KE::
         parsedForm->setWellformedness( KE::AbstractTextItem::Ignored );
         return;
     }
-    parsings = mMorphology->uniqueParsings( mNormalizationFunction( formToParse ) );
+    parsings = mMorphology->uniqueParsings(formToParse);
 
     /// 2. Convert to list (necessary for various functions)
     QList<ME::Parsing> parsingList(parsings.begin(),parsings.end());

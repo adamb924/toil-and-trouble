@@ -16,7 +16,7 @@ class ParsingAdjudicator;
 class TOILANDTROUBLE_EXPORT Parser : public KE::AbstractTextParser
 {
 public:
-    Parser(const ME::Morphology *morphology, std::function<ME::Form(ME::Form)> normalizationFunction);
+    explicit Parser(const ME::Morphology *morphology);
     Parser(const Parser & other) = delete;
     Parser operator=(const Parser & other) = delete;
     ~Parser() override;
